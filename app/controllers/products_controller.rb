@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  include CurrentUserConcern
   before_action :set_product, only: %i[show update destroy]
 
   # GET /products
@@ -22,7 +23,7 @@ class ProductsController < ApplicationController
     @product.languages = params[:languages] if params[:languages].present?
     @product.platforms = params[:platforms] if params[:platforms].present?
 
-    if @product.save
+    if @product.save && @product.errors.empty?
       render json: {
         success: true,
         msg: 'Product successfully saved',
@@ -67,6 +68,20 @@ class ProductsController < ApplicationController
     }
   end
 
+  def catalogue
+    languages = Language.all
+    platforms = Platform.all
+
+    render json: {
+      success: true,
+      msg: 'Catalogues found',
+      catalogues: {
+        languages: LanguageSerializer.new(languages),
+        platforms: PlatformSerializer.new(platforms)
+      }
+    }
+  end
+
   private
 
   def set_product
@@ -81,7 +96,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :price, :description, :stock, :provider, :has_free_shipping, :shipping_cost, :last_bought_at)
+    params.permit(:name, :price, :description, :stock, :provider, :has_free_shipping, :shipping_cost, :last_bought_at)
   end
 
   # This has to be here otherwise the product isn't updated when it gets sent to the frontend
