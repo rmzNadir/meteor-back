@@ -1,11 +1,12 @@
 class ProductsController < ApplicationController
   include CurrentUserConcern
+  include Rails::Pagination
   before_action :set_product, only: %i[show update destroy]
 
   # GET /products
   def index
-    @products = Product.all
-    render json: @products, each_serializer: ProductSerializer
+    @products = Product.all.order(created_at: :desc)
+    paginate json: @products, per_page: params[:per_page], each_serializer: ProductSerializer
   end
 
   # GET /products/1
