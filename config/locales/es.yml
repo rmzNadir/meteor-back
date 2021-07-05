@@ -2,12 +2,24 @@ es:
   activerecord:
     models:
       user: 'Usuario'
+      language: 'Lenguaje'
+      product: 'Producto'
     attributes:
       user:
         email: 'Email'
+      language:
+        name: 'Lenguaje'
+      product:
+        languages: 'Lenguajes'
     errors:
       models:
         user:
           attributes:
             email:
               taken: 'El email ya ha sido usado para registrarse'
+        product:
+          attributes:
+            languages:
+              blank: 'Es necesario especificar al menos un lenguaje'
+            platforms:
+              blank: 'Es necesario especificar al menos una plataforma'
