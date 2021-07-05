@@ -1,0 +1,13 @@
+es:
+  activerecord:
+    models:
+      user: 'Usuario'
+    attributes:
+      user:
+        email: 'Email'
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: 'El email ya ha sido usado para registrarse'
