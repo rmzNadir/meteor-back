@@ -69,17 +69,11 @@ class ProductsController < ApplicationController
     }
   end
 
-  def catalogue
-    languages = Language.all
-    platforms = Platform.all
-
+  def cards
     render json: {
       success: true,
-      msg: 'Catalogues found',
-      catalogues: {
-        languages: LanguageSerializer.new(languages),
-        platforms: PlatformSerializer.new(platforms)
-      }
+      msg: 'Cards info',
+      cards: ProductsService::Dashboard.new.call
     }
   end
 
