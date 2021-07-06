@@ -22,8 +22,8 @@ class ProductsController < ApplicationController
   # POST /products
   def create
     @product = Product.new(product_params)
-    @product.languages = JSON.parse(params[:languages]) if params[:languages].present?
-    @product.platforms = JSON.parse(params[:platforms]) if params[:platforms].present?
+    @product.languages = params[:languages].split(',') if params[:languages].present?
+    @product.platforms = params[:languages].split(',') if params[:platforms].present?
 
     if @product.save && @product.errors.empty?
       render json: {
@@ -42,8 +42,8 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
-    update_languages(JSON.parse(params[:languages])) if params[:languages].present?
-    update_platforms(JSON.parse(params[:platforms])) if params[:platforms].present?
+    update_languages(params[:languages].split(',')) if params[:languages].present?
+    update_platforms(params[:languages].split(',')) if params[:platforms].present?
 
     if @product.update(product_params)
 
