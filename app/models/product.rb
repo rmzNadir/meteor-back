@@ -3,6 +3,7 @@ class Product < ApplicationRecord
   has_many :languages, through: :product_has_languages
   has_many :product_has_platforms, dependent: :destroy
   has_many :platforms, through: :product_has_platforms
+  has_one_attached :image
 
   validates :platforms, :languages, presence: true, on: :save
   validates_associated :platforms, :languages, presence: true, on: :save

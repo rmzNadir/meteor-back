@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   include CurrentUserConcern
   include Rails::Pagination
+  require 'json'
   before_action :set_product, only: %i[show update destroy]
 
   # GET /products
@@ -21,8 +22,8 @@ class ProductsController < ApplicationController
   # POST /products
   def create
     @product = Product.new(product_params)
-    @product.languages = params[:languages] if params[:languages].present?
-    @product.platforms = params[:platforms] if params[:platforms].present?
+    @product.languages = JSON.parse(params[:languages]) if params[:languages].present?
+    @product.platforms = JSON.parse(params[:platforms]) if params[:platforms].present?
 
     if @product.save && @product.errors.empty?
       render json: {
@@ -41,8 +42,8 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
-    update_languages if params[:languages].present?
-    update_platforms if params[:platforms].present?
+    update_languages(JSON.parse(params[:languages])) if params[:languages].present?
+    update_platforms(JSON.parse(params[:platforms])) if params[:platforms].present?
 
     if @product.update(product_params)
 
@@ -91,34 +92,34 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.permit(:name, :price, :description, :stock, :provider, :has_free_shipping, :shipping_cost, :last_bought_at)
+    params.permit(:name, :price, :description, :stock, :provider, :has_free_shipping, :shipping_cost, :last_bought_at, :image)
   end
 
   # This has to be here otherwise the product isn't updated when it gets sent to the frontend
   # Dogshit tier code, should refactor this into a service / Better solution for the many to many relationship
 
-  def update_platforms
+  def update_platforms(platforms)
     old_platforms = ProductHasPlatform.where(product_id: @product.id).pluck(:platform_id)
-    platforms_to_delete = old_platforms - params[:platforms]
+    platforms_to_delete = old_platforms - platforms
 
     platforms_to_delete.each do |platform_id|
       ProductHasPlatform.find_by(platform_id: platform_id, product_id: @product.id).destroy
     end
 
-    params[:platforms].each do |platform_id|
+    platforms.each do |platform_id|
       ProductHasPlatform.find_or_create_by(platform_id: platform_id, product_id: @product.id)
     end
   end
 
-  def update_languages
+  def update_languages(languages)
     old_langs = ProductHasLanguage.where(product_id: @product.id).pluck(:language_id)
-    langs_to_delete = old_langs - params[:languages]
+    langs_to_delete = old_langs - languages
 
     langs_to_delete.each do |language_id|
       ProductHasLanguage.find_by(language_id: language_id, product_id: @product.id).destroy
     end
 
-    params[:languages].each do |language_id|
+    languages.each do |language_id|
       ProductHasLanguage.find_or_create_by(language_id: language_id, product_id: @product.id)
     end
   end
