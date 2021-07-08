@@ -82,9 +82,7 @@ class ProductsController < ApplicationController
 
   def set_product
     @product = Product.find(params[:id])
-
-    return unless @product.nil?
-
+  rescue ActiveRecord::RecordNotFound
     render json: {
       success: false,
       msg: 'Product not found',
