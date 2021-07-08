@@ -1,4 +1,4 @@
-# Rails.application.config.action_dispatch.cookies_same_site_protection = :none
+Rails.application.config.action_dispatch.cookies_same_site_protection = :none if Rails.env === "production"
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
