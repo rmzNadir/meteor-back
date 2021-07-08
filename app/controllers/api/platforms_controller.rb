@@ -1,4 +1,4 @@
-class PlatformsController < ApplicationController
+class Api::PlatformsController < ApplicationController
   include CurrentUserConcern
 
   # GET /platforms

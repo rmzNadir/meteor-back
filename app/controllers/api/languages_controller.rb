@@ -1,4 +1,4 @@
-class LanguagesController < ApplicationController
+class Api::LanguagesController < ApplicationController
   include CurrentUserConcern
 
   # GET /languages

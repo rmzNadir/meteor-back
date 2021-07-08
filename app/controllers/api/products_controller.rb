@@ -1,4 +1,4 @@
-class ProductsController < ApplicationController
+class Api::ProductsController < ApplicationController
   include CurrentUserConcern
   include Rails::Pagination
   require 'json'

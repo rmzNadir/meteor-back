@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class Api::SessionsController < ApplicationController
   include CurrentUserConcern
   skip_before_action :set_current_user, only: [:create]
 
