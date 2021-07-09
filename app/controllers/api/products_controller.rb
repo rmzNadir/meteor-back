@@ -23,7 +23,7 @@ class Api::ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     @product.languages = params[:languages].split(',') if params[:languages].present?
-    @product.platforms = params[:languages].split(',') if params[:platforms].present?
+    @product.platforms = params[:platforms].split(',') if params[:platforms].present?
 
     if @product.save && @product.errors.empty?
       render json: {
@@ -43,7 +43,7 @@ class Api::ProductsController < ApplicationController
   # PATCH/PUT /products/1
   def update
     update_languages(params[:languages].split(',')) if params[:languages].present?
-    update_platforms(params[:languages].split(',')) if params[:platforms].present?
+    update_platforms(params[:platforms].split(',')) if params[:platforms].present?
 
     if @product.update(product_params)
 
