@@ -12,7 +12,7 @@ class ProductSerializer < ActiveModel::Serializer
       id: object.image.id,
       filename: object.image.blob.filename,
       content_type: object.image.blob.content_type,
-      url: Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true),
+      url: Rails.application.routes.url_helpers.rails_blob_path(object.image, only_path: true),
       created_at: object.image.created_at
     }
   end
