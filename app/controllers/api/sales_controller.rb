@@ -27,6 +27,9 @@ class Api::SalesController < ApplicationController
 
     if @sale.save && @sale.errors.empty?
       Sale.update_product_stock(@sale)
+
+      UserNotifierMailer.send_sale_confirmation(@current_user, @sale).deliver
+
       render json: {
         success: true,
         msg: 'Sale successfully saved',
