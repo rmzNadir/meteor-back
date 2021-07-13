@@ -3,6 +3,8 @@ class Product < ApplicationRecord
   has_many :languages, through: :product_has_languages
   has_many :product_has_platforms, dependent: :destroy
   has_many :platforms, through: :product_has_platforms
+  has_many :has_sales, dependent: :destroy
+  has_many :sales, through: :has_sales
   has_one_attached :image
 
   validates :platforms, :languages, presence: true, on: :save
@@ -13,6 +15,8 @@ class Product < ApplicationRecord
   after_create :save_languages, :save_platforms
 
   attr_writer :languages, :platforms
+
+  # Find a better solution...
 
   def self.update_platforms(product, platforms)
     old_platforms = ProductHasPlatform.where(product_id: product.id).pluck(:platform_id)

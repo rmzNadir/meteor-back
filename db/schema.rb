@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_06_022154) do
+ActiveRecord::Schema.define(version: 2021_07_13_211028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,16 @@ ActiveRecord::Schema.define(version: 2021_07_06_022154) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "has_sales", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "sale_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "quantity"
+    t.index ["product_id"], name: "index_has_sales_on_product_id"
+    t.index ["sale_id"], name: "index_has_sales_on_sale_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -86,6 +96,17 @@ ActiveRecord::Schema.define(version: 2021_07_06_022154) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "sales", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "total"
+    t.integer "payment_method"
+    t.string "payment_info"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "address"
+    t.index ["user_id"], name: "index_sales_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -99,8 +120,11 @@ ActiveRecord::Schema.define(version: 2021_07_06_022154) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "has_sales", "products"
+  add_foreign_key "has_sales", "sales"
   add_foreign_key "product_has_languages", "languages"
   add_foreign_key "product_has_languages", "products"
   add_foreign_key "product_has_platforms", "platforms"
   add_foreign_key "product_has_platforms", "products"
+  add_foreign_key "sales", "users"
 end

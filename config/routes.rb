@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :products
+    resources :sales
     get "/product-cards", to: "products#cards"
     resources :languages, only: [:index]
     resources :platforms, only: [:index]

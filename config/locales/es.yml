@@ -23,3 +23,16 @@ es:
               blank: 'Es necesario especificar al menos un lenguaje'
             platforms:
               blank: 'Es necesario especificar al menos una plataforma'
+        sale:
+          attributes:
+            products:
+              blank: 'Es necesario especificar al menos un producto'
+            user:
+              required: 'El usuario es requerido'
+              blank: 'El usuario no puede estar vacío'
+            payment_method:
+              blank: 'Es necesario especificar el método de pago'
+            payment_info:
+              blank: 'Es necesario especificar la información de pago'
+            address:
+              blank: 'Es necesario especificar la dirección'
