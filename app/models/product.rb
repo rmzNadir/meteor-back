@@ -14,6 +14,32 @@ class Product < ApplicationRecord
 
   attr_writer :languages, :platforms
 
+  def self.update_platforms(product, platforms)
+    old_platforms = ProductHasPlatform.where(product_id: product.id).pluck(:platform_id)
+    platforms_to_delete = old_platforms - platforms
+
+    platforms_to_delete.each do |platform_id|
+      ProductHasPlatform.find_by(platform_id: platform_id, product_id: product.id).destroy
+    end
+
+    platforms.each do |platform_id|
+      ProductHasPlatform.find_or_create_by(platform_id: platform_id, product_id: product.id)
+    end
+  end
+
+  def self.update_languages(product, languages)
+    old_langs = ProductHasLanguage.where(product_id: product.id).pluck(:language_id)
+    langs_to_delete = old_langs - languages
+
+    langs_to_delete.each do |language_id|
+      ProductHasLanguage.find_by(language_id: language_id, product_id: product.id).destroy
+    end
+
+    languages.each do |language_id|
+      ProductHasLanguage.find_or_create_by(language_id: language_id, product_id: product.id)
+    end
+  end
+
   private
 
   def save_languages
