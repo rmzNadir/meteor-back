@@ -51,6 +51,21 @@ class Sale < ApplicationRecord
       total += has_sale.quantity * has_sale.product.price
     end
 
-    update!(total: total)
+    calculate_shipping(total)
+  end
+
+  # Shipping cost is free on totals equal or higher than 250 MXN, otherwise shipping cost will be set
+  # to the highest shipping cost present in all of the sale's products
+  def calculate_shipping(total)
+    shipping = 0
+
+    if total < 250
+      has_sales.each do |has_sale|
+        product_shipping_cost = has_sale.product.shipping_cost
+        shipping =  product_shipping_cost > shipping ? product_shipping_cost : shipping
+      end
+    end
+
+    update!(total: total, shipping_total: shipping)
   end
 end

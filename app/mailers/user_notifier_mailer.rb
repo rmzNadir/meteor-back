@@ -6,6 +6,6 @@ class UserNotifierMailer < ApplicationMailer
     @sale = sale
     attachments.inline['logo.png'] = File.read("app/assets/images/meteor.png")
     mail( to: @user.email,
-          subject: 'Thanks for signing up for our amazing app' )
+          subject: "Confirmación de orden No. #{@sale.id}" )
   end
 end
