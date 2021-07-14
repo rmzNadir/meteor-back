@@ -12,53 +12,51 @@ class Product < ApplicationRecord
   validates :name, :price, :description, :stock, :provider, :shipping_cost, presence: true
   validates :has_free_shipping, inclusion: { in: [true, false] }
 
-  after_create :save_languages, :save_platforms
+  # TODO: Find a better solution...- Status: Done, moved the logic to a new service
 
-  attr_writer :languages, :platforms
+  # after_create :save_platforms, :save_languages
 
-  # Find a better solution...
+  # attr_writer :languages, :platforms
 
-  def self.update_platforms(product, platforms)
-    old_platforms = ProductHasPlatform.where(product_id: product.id).pluck(:platform_id)
-    platforms_to_delete = old_platforms - platforms
+  # def self.update_platforms(product, platforms)
+  #   old_platforms = ProductHasPlatform.where(product_id: product.id).pluck(:platform_id)
+  #   platforms_to_delete = old_platforms - platforms
 
-    platforms_to_delete.each do |platform_id|
-      ProductHasPlatform.find_by(platform_id: platform_id, product_id: product.id).destroy
-    end
+  #   platforms_to_delete.each do |platform_id|
+  #     ProductHasPlatform.find_by(platform_id: platform_id, product_id: product.id).destroy
+  #   end
 
-    platforms.each do |platform_id|
-      ProductHasPlatform.find_or_create_by(platform_id: platform_id, product_id: product.id)
-    end
-  end
+  #   platforms.each do |platform_id|
+  #     ProductHasPlatform.find_or_create_by(platform_id: platform_id, product_id: product.id)
+  #   end
+  # end
 
-  def self.update_languages(product, languages)
-    old_langs = ProductHasLanguage.where(product_id: product.id).pluck(:language_id)
-    langs_to_delete = old_langs - languages
+  # def self.update_languages(product, languages)
+  #   old_langs = ProductHasLanguage.where(product_id: product.id).pluck(:language_id)
+  #   langs_to_delete = old_langs - languages
 
-    langs_to_delete.each do |language_id|
-      ProductHasLanguage.find_by(language_id: language_id, product_id: product.id).destroy
-    end
+  #   langs_to_delete.each do |language_id|
+  #     ProductHasLanguage.find_by(language_id: language_id, product_id: product.id).destroy
+  #   end
 
-    languages.each do |language_id|
-      ProductHasLanguage.find_or_create_by(language_id: language_id, product_id: product.id)
-    end
-  end
+  #   languages.each do |language_id|
+  #     ProductHasLanguage.find_or_create_by(language_id: language_id, product_id: product.id)
+  #   end
+  # end
 
-  private
+  # def save_languages
+  #   return errors.add(:languages, I18n.t('activerecord.errors.models.product.attributes.languages.blank')) if @languages.nil?
 
-  def save_languages
-    return errors.add(:languages, I18n.t('activerecord.errors.models.product.attributes.languages.blank')) if @languages.nil?
+  #   @languages.each do |language_id|
+  #     ProductHasLanguage.create(language_id: language_id, product_id: id)
+  #   end
+  # end
 
-    @languages.each do |language_id|
-      ProductHasLanguage.create(language_id: language_id, product_id: id)
-    end
-  end
+  # def save_platforms
+  #   return errors.add(:languages, I18n.t('activerecord.errors.models.product.attributes.platforms.blank')) if @platforms.nil?
 
-  def save_platforms
-    return errors.add(:languages, I18n.t('activerecord.errors.models.product.attributes.platforms.blank')) if @platforms.nil?
-
-    @platforms.each do |platform_id|
-      ProductHasPlatform.create(platform_id: platform_id, product_id: id)
-    end
-  end
+  #   @platforms.each do |platform_id|
+  #     ProductHasPlatform.create(platform_id: platform_id, product_id: id)
+  #   end
+  # end
 end

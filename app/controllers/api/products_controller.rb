@@ -22,10 +22,11 @@ class Api::ProductsController < ApplicationController
   # POST /products
   def create
     @product = Product.new(product_params)
-    @product.languages = params[:languages].split(',')
-    @product.platforms = params[:platforms].split(',')
+    # @product.languages = params[:languages].split(',')
+    # @product.platforms = params[:platforms].split(',')
 
-    if @product.save && @product.errors.empty?
+    if @product.save
+      ProductsService::Relations.new(@product, params).call
       render json: {
         success: true,
         msg: 'Product successfully saved',
@@ -43,8 +44,9 @@ class Api::ProductsController < ApplicationController
   # PATCH/PUT /products/1
   def update
     if @product.update(product_params)
-      Product.update_languages(@product, params[:languages].split(','))
-      Product.update_platforms(@product, params[:platforms].split(','))
+      ProductsService::Relations.new(@product, params).call(create: false)
+      # Product.update_languages(@product, params[:languages].split(','))
+      # Product.update_platforms(@product, params[:platforms].split(','))
 
       render json: {
         success: true,

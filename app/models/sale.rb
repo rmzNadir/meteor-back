@@ -39,7 +39,9 @@ class Sale < ApplicationRecord
     return errors.add(:sales, I18n.t('activerecord.errors.models.sale.attributes.products.blank')) if @products.nil?
 
     @products.each do |product|
-      HasSale.create(product_id: product[:id], sale_id: id, quantity: product[:quantity] )
+      if HasSale.create(product_id: product[:id], sale_id: id, quantity: product[:quantity] )
+        Product.find(product[:id]).update(last_bought_at: DateTime.now)
+      end
     end
 
     calculate_total
