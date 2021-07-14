@@ -23,10 +23,11 @@ class Api::SalesController < ApplicationController
   def create
     @sale = Sale.new(sale_params)
     @sale.user_id = @current_user.id
-    @sale.products = params[:products]
+    # @sale.products = params[:products]
 
-    if @sale.save && @sale.errors.empty?
-      Sale.update_product_stock(@sale)
+    if @sale.save
+      # Sale.update_product_stock(@sale)
+      SalesServices::Relations.new(@sale, params).call
 
       UserNotifierMailer.send_sale_confirmation(@current_user, @sale).deliver
 
@@ -45,10 +46,13 @@ class Api::SalesController < ApplicationController
   end
 
   # PATCH/PUT /sales/1
-  # TODO: FINISH
+
+  # TODO: FINISH SALE UPDATES
+
   def update
     if @sale.update(sale_params)
-      Sale.update_products(@sale, params[:products])
+      SalesServices::Relations.new(@sale, params).call(create: false)
+      # Sale.update_products(@sale, params[:products])
 
       render json: {
         success: true,

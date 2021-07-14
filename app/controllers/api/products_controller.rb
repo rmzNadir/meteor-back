@@ -26,7 +26,7 @@ class Api::ProductsController < ApplicationController
     # @product.platforms = params[:platforms].split(',')
 
     if @product.save
-      ProductsService::Relations.new(@product, params).call
+      ProductsServices::Relations.new(@product, params).call
       render json: {
         success: true,
         msg: 'Product successfully saved',
@@ -44,7 +44,7 @@ class Api::ProductsController < ApplicationController
   # PATCH/PUT /products/1
   def update
     if @product.update(product_params)
-      ProductsService::Relations.new(@product, params).call(create: false)
+      ProductsServices::Relations.new(@product, params).call(create: false)
       # Product.update_languages(@product, params[:languages].split(','))
       # Product.update_platforms(@product, params[:platforms].split(','))
 
@@ -75,7 +75,7 @@ class Api::ProductsController < ApplicationController
     render json: {
       success: true,
       msg: 'Cards info',
-      cards: ProductsService::Dashboard.new.call
+      cards: ProductsServices::Dashboard.new.call
     }
   end
 

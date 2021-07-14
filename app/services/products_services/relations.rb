@@ -1,4 +1,4 @@
-class ProductsService::Relations
+class ProductsServices::Relations
   def initialize(product, params)
     @product = product
     @params = params

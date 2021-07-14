@@ -1,4 +1,4 @@
-class ProductsService::Dashboard
+class ProductsServices::Dashboard
   def initialize; end
 
   def call
