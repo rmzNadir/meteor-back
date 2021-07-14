@@ -4,11 +4,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :products
-    resources :sales
     get "/product-cards", to: "products#cards"
+    resources :sales
     resources :languages, only: [:index]
     resources :platforms, only: [:index]
     resources :sessions, only: [:create]
+    get "/listings", to: "listings#index"
     delete :logout, to: "sessions#logout"
     get :logged_in, to: "sessions#logged_in"
     resources :registrations, only: [:create]
