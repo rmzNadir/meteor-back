@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_13_232926) do
+ActiveRecord::Schema.define(version: 2021_07_14_025554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "unaccent"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
