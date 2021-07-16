@@ -36,3 +36,7 @@ es:
               blank: 'Es necesario especificar la información de pago'
             address:
               blank: 'Es necesario especificar la dirección'
+        cart:
+          attributes:
+            products:
+              blank: 'Es necesario especificar al menos un producto'

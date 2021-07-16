@@ -5,6 +5,8 @@ class Product < ApplicationRecord
   has_many :platforms, through: :product_has_platforms
   has_many :has_sales, dependent: :destroy
   has_many :sales, through: :has_sales
+  has_many :cart_items, dependent: :destroy
+  has_many :carts, through: :cart_items
   has_one_attached :image
 
   validates :platforms, :languages, presence: true, on: :save
