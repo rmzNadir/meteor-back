@@ -32,6 +32,8 @@ class CartsServices::Relations
       car_item.quantity = product[:quantity]
       car_item.save
     end
+
+    @cart.update(updated_at: DateTime.now)
     true
   end
 end
