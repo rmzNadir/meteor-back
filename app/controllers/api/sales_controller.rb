@@ -95,6 +95,6 @@ class Api::SalesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def sale_params
-    params.permit(:total, :payment_method, :payment_info, :address)
+    params.permit(:total, :payment_method, :payment_info, :payment_info_code, :payment_info_expiration, :address)
   end
 end

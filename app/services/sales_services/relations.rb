@@ -21,7 +21,7 @@ class SalesServices::Relations
       end
     end
 
-    calculate_total
+    calculate_subtotal
   end
 
   def update_relations
@@ -39,31 +39,31 @@ class SalesServices::Relations
 
   private
 
-  def calculate_total
-    total = 0
+  def calculate_subtotal
+    subtotal = 0
     @sale.has_sales.each do |has_sale|
-      total += has_sale.quantity * has_sale.product.price
+      subtotal += has_sale.quantity * has_sale.product.price
 
       new_stock = has_sale.product.stock - has_sale.quantity
 
       has_sale.product.update(stock: new_stock)
     end
 
-    calculate_shipping(total)
+    calculate_shipping(subtotal)
   end
 
-  # Shipping cost is free on totals equal or higher than 250 MXN, otherwise shipping cost will be set
+  # Shipping cost is free on subtotal equal or higher than 250 MXN, otherwise shipping cost will be set
   # to the highest shipping cost present in all of the sale's products
-  def calculate_shipping(total)
+  def calculate_shipping(subtotal)
     shipping = 0
 
-    if total < 250
+    if subtotal < 250
       @sale.has_sales.each do |has_sale|
         product_shipping_cost = has_sale.product.shipping_cost
         shipping = product_shipping_cost > shipping ? product_shipping_cost : shipping
       end
     end
 
-    @sale.update(total: total, shipping_total: shipping)
+    @sale.update(subtotal: subtotal, shipping_total: shipping, total: subtotal + shipping)
   end
 end

@@ -6,7 +6,7 @@ class Sale < ApplicationRecord
 
   # TODO: Encrypt payment details
 
-  validates :user, :payment_method, :payment_info, :address, presence: true
+  validates :user, :payment_method, :payment_info, :payment_info_expiration, :payment_info_code, :address, presence: true
 
   # after_create :save_products
 
