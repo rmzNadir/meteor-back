@@ -1,5 +1,5 @@
 class SaleSerializer < ActiveModel::Serializer
-  attributes :id, :total, :subtotal, :shipping_total, :address, :payment_method, :payment_info, :products
+  attributes :id, :total, :subtotal, :shipping_total, :address, :payment_method, :payment_info, :products, :created_at
 
   # has_many :products, serializer: ProductSerializer
   belongs_to :user, serializer: UserSerializerLight

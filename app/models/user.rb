@@ -11,6 +11,10 @@ class User < ApplicationRecord
     role == "admin"
   end
 
+  def client_user?
+    role == "client_user"
+  end
+
   private
 
   def create_cart

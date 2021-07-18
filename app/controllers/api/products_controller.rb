@@ -6,7 +6,7 @@ class Api::ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.all.order(created_at: :desc)
+    @products = ProductQuery.new.relation.search_with_params(search_params).order(created_at: :desc)
     paginate json: @products, per_page: params[:per_page], each_serializer: ProductSerializer
   end
 
@@ -96,5 +96,11 @@ class Api::ProductsController < ApplicationController
 
   def product_params
     params.permit(:name, :price, :description, :stock, :provider, :has_free_shipping, :shipping_cost, :last_bought_at, :image)
+  end
+
+  def search_params
+    params.permit(
+      :q
+    )
   end
 end
