@@ -69,3 +69,5 @@ gem 'api-pagination'
 gem 'cloudinary'
 
 gem 'dotenv-rails'
+
+gem 'pundit'
