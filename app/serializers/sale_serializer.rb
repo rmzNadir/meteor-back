@@ -7,4 +7,8 @@ class SaleSerializer < ActiveModel::Serializer
   def products
     ActiveModel::Serializer::CollectionSerializer.new(object.has_sales, each_serializer: HasSaleSerializer)
   end
+
+  def payment_info
+    object.payment_info.chars.last(4).join
+  end
 end

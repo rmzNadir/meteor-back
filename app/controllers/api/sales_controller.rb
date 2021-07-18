@@ -6,7 +6,7 @@ class Api::SalesController < ApplicationController
 
   # GET /sales
   def index
-    sales = Sale.all.order(created_at: :desc)
+    sales = SaleQuery.new(policy_scope(Sale)).relation.search_with_params(search_params).order(created_at: :desc)
     paginate json: sales, per_page: params[:per_page], each_serializer: SaleSerializer
   end
 
@@ -96,5 +96,11 @@ class Api::SalesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def sale_params
     params.permit(:total, :payment_method, :payment_info, :payment_info_code, :payment_info_expiration, :address)
+  end
+
+  def search_params
+    params.permit(
+      :q
+    )
   end
 end

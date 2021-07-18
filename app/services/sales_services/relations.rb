@@ -52,7 +52,7 @@ class SalesServices::Relations
     calculate_shipping(subtotal)
   end
 
-  # Shipping cost is free on subtotals equal or higher than 250 MXN, otherwise shipping cost will be set
+  # Shipping cost is free on subtotals equal or higher than 250 MXN, otherwise it will be set
   # to the highest shipping cost present in all of the sale's products
   def calculate_shipping(subtotal)
     shipping = 0

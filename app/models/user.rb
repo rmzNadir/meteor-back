@@ -7,6 +7,10 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   enum role: { user: 0, admin: 1, client_user: 2 }
 
+  def admin?
+    role == "admin"
+  end
+
   private
 
   def create_cart

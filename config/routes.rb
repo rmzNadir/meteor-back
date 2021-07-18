@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get "/product-cards", to: "products#cards"
     resources :carts, only: [:show, :update]
     resources :sales
+    get "/orders", to: "orders#index"
     resources :languages, only: [:index]
     resources :platforms, only: [:index]
     resources :sessions, only: [:create]
