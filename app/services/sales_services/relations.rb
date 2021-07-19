@@ -15,10 +15,11 @@ class SalesServices::Relations
   def create_relations
     return errors.add(:sales, I18n.t('activerecord.errors.models.sale.attributes.products.blank')) if @products.nil?
 
-    @products.each do |product|
-      if HasSale.create(product_id: product[:id], sale_id: @sale.id, quantity: product[:quantity] )
-        Product.find(product[:id]).update(last_bought_at: DateTime.now)
-      end
+    @products.each do |prod|
+      next unless HasSale.create(product_id: prod[:id], sale_id: @sale.id, quantity: prod[:quantity] )
+
+      product = Product.find(prod[:id])
+      product.update(last_bought_at: DateTime.now, times_bought: product.times_bought + prod[:quantity])
     end
 
     calculate_subtotal

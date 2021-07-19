@@ -12,6 +12,7 @@ class Product < ApplicationRecord
   validates :platforms, :languages, presence: true, on: :save
   validates_associated :platforms, :languages, presence: true, on: :save
   validates :name, :price, :description, :stock, :provider, :shipping_cost, presence: true
+  validates :name, uniqueness: true
   validates :has_free_shipping, inclusion: { in: [true, false] }
 
   # TODO: Find a better solution...- Status: Done, moved the logic to a new service

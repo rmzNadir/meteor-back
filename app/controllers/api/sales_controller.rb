@@ -77,6 +77,16 @@ class Api::SalesController < ApplicationController
     }
   end
 
+  def dashboard
+    dashboard_info = SalesServices::Dashboard.new.call
+
+    render json: {
+      success: true,
+      msg: 'Dashboard info found',
+      dashboard: dashboard_info
+    }
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

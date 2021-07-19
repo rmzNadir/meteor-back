@@ -19,6 +19,8 @@ es:
               taken: 'El email ya ha sido usado para registrarse'
         product:
           attributes:
+            name:
+              taken: 'Ya se ha registrado un producto con ese nombre'
             languages:
               blank: 'Es necesario especificar al menos un lenguaje'
             platforms:
