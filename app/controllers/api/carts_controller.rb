@@ -1,7 +1,6 @@
 class Api::CartsController < ApplicationController
-  # include CurrentUserConcern
+  include CurrentUserConcern
   before_action :set_cart, only: %i[show update]
-  #   before_action :check_params, only: [:update]
 
   # GET /carts/1
   def show
@@ -42,10 +41,6 @@ class Api::CartsController < ApplicationController
       success: false,
       msg: "Cart not found for user with id #{params[:id]}",
     }
-  end
-
-  def check_params
-    render json: { success: false, msg: 'Missing products' } if params[:products].blank?
   end
 
   # Only allow a list of trusted parameters through.
