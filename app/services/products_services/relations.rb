@@ -13,12 +13,16 @@ class ProductsServices::Relations
   end
 
   def create_relations
-    @params[:languages].split(',').each do |id|
-      @product.product_has_languages.create(language_id: id)
+    if @params[:languages].present?
+      @params[:languages].split(',').each do |id|
+        @product.product_has_languages.create(language_id: id)
+      end
     end
 
-    @params[:platforms].split(',').each do |id|
-      @product.product_has_platforms.create(platform_id: id)
+    if @params[:platforms].present?
+      @params[:platforms].split(',').each do |id|
+        @product.product_has_platforms.create(platform_id: id)
+      end
     end
   end
 
@@ -26,26 +30,30 @@ class ProductsServices::Relations
     platforms = @params[:platforms].split(',')
     languages = @params[:languages].split(',')
 
-    old_platforms = ProductHasPlatform.where(product_id: @product.id).pluck(:platform_id)
-    platforms_to_delete = old_platforms - platforms
+    if !platforms.nil?
+      old_platforms = ProductHasPlatform.where(product_id: @product.id).pluck(:platform_id)
+      platforms_to_delete = old_platforms - platforms
 
-    platforms_to_delete.each do |platform_id|
-      ProductHasPlatform.find_by(platform_id: platform_id, product_id: @product.id).destroy
+      platforms_to_delete.each do |platform_id|
+        ProductHasPlatform.find_by(platform_id: platform_id, product_id: @product.id).destroy
+      end
+
+      platforms.each do |platform_id|
+        ProductHasPlatform.find_or_create_by(platform_id: platform_id, product_id: @product.id)
+      end
     end
 
-    platforms.each do |platform_id|
-      ProductHasPlatform.find_or_create_by(platform_id: platform_id, product_id: @product.id)
-    end
+    if !languages.nil?
+      old_langs = ProductHasLanguage.where(product_id: @product.id).pluck(:language_id)
+      langs_to_delete = old_langs - languages
 
-    old_langs = ProductHasLanguage.where(product_id: @product.id).pluck(:language_id)
-    langs_to_delete = old_langs - languages
+      langs_to_delete.each do |language_id|
+        ProductHasLanguage.find_by(language_id: language_id, product_id: @product.id).destroy
+      end
 
-    langs_to_delete.each do |language_id|
-      ProductHasLanguage.find_by(language_id: language_id, product_id: @product.id).destroy
-    end
-
-    languages.each do |language_id|
-      ProductHasLanguage.find_or_create_by(language_id: language_id, product_id: @product.id)
+      languages.each do |language_id|
+        ProductHasLanguage.find_or_create_by(language_id: language_id, product_id: @product.id)
+      end
     end
   end
 end

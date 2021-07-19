@@ -2,7 +2,7 @@ class Api::ProductsController < ApplicationController
   include CurrentUserConcern
   include Rails::Pagination
   before_action :set_product, only: %i[show update destroy]
-  before_action :check_params, only: [:create, :update]
+  # before_action :check_params, only: [:create, :update]
 
   # GET /products
   def index
