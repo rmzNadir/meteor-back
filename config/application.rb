@@ -13,6 +13,8 @@ module MeteorBackend
 
     config.i18n.default_locale = :es
     I18n.available_locales = [:es]
+    config.time_zone = "Mexico City"
+
 
     # Configuration for the application, engines, and railties goes here.
     #

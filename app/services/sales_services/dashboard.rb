@@ -29,7 +29,7 @@ class SalesServices::Dashboard
   private
 
   def find_days_ago(day)
-    sales = Sale.where('extract(dow from created_at) = ?', day.days.ago.wday)
+    sales = Sale.where("created_at BETWEEN ? AND ?", day.days.ago.beginning_of_day, day.days.ago.end_of_day)
     {
       name: 'Ventas',
       date: DateTime.now.days_ago(day),
