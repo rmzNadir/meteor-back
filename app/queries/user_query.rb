@@ -13,7 +13,7 @@ class UserQuery
     end
 
     def by_search_term(search)
-      search_key = "%#{search.parameterize(separator: '')}%"
+      search_key = "%#{search.strip}%"
 
       where(
         "UNACCENT(REPLACE(email, ' ', '')) ILIKE :search
@@ -22,9 +22,9 @@ class UserQuery
           OR role = CASE
             WHEN 'usuario' ILIKE :search THEN
               0
-            WHEN 'gerente' ILIKE :search THEN
+            WHEN 'administrador' ILIKE :search THEN
               1
-            WHEN 'cliente' ILIKE :search THEN
+            WHEN 'gerente' ILIKE :search THEN
               2
           END",
         search: search_key
