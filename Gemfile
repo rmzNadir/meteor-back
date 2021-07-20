@@ -72,4 +72,3 @@ gem 'dotenv-rails'
 
 gem 'pundit'
 
-gem 'unicorn'
