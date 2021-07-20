@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get "/sales-dashboard", to: "sales#dashboard"
     get "/orders", to: "orders#index"
     get "/orders/:id", to: "orders#show"
+    resources :users, except: [:create]
     resources :languages, only: [:index]
     resources :platforms, only: [:index]
     resources :sessions, only: [:create]
