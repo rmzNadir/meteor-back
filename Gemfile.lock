@@ -122,7 +122,6 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
-    kgio (2.11.4)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -189,7 +188,6 @@ GEM
       rake (>= 0.13)
       thor (~> 1.0)
     rainbow (3.0.0)
-    raindrops (0.19.2)
     rake (13.0.3)
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
@@ -251,9 +249,6 @@ GEM
       unf_ext
     unf_ext (0.0.7.7)
     unicode-display_width (2.0.0)
-    unicorn (6.0.0)
-      kgio (~> 2.6)
-      raindrops (~> 0.7)
     web-console (4.1.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -303,7 +298,6 @@ DEPENDENCIES
   spring
   turbolinks (~> 5)
   tzinfo-data
-  unicorn
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)
