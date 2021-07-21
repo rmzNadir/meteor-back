@@ -59,10 +59,10 @@ class Api::UsersController < ApplicationController
   def user_params
     # Yeah... had to do this cuz rails wont recognize js null as nil
     if params[:image] == 'DELETE'
-      return params.permit(:email, :name, :last_name, :role).with_defaults(image: nil)
+      return params.permit(:email, :name, :last_name, :role, :password).with_defaults(image: nil)
     end
 
-    params.permit(:email, :name, :last_name, :role, :image)
+    params.permit(:email, :name, :last_name, :role, :image, :password)
   end
 
   def search_params
