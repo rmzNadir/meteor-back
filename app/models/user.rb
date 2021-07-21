@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_one :cart, dependent: :destroy
   has_many :sales, dependent: :nullify
+  has_one_attached :image
   has_secure_password # Makes the model encrypt the user's password
   after_create :create_cart
 
