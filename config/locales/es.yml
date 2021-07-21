@@ -17,6 +17,8 @@ es:
           attributes:
             email:
               taken: 'El email ya ha sido usado para registrarse'
+            password:
+              wrong: 'Revisa tu contraseña'
         product:
           attributes:
             name:

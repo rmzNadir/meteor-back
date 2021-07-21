@@ -20,18 +20,33 @@ class Api::UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
+    can_update = true
+    is_password_update = params[:current_password].present?
 
+    if is_password_update
+      can_update = @user.authenticate(params[:current_password])
+    end
+
+    if can_update && @user.update(user_params)
       render json: {
         success: true,
         msg: 'User successfully updated',
-        user: UserSerializer.new(@user)
+        user: UserSerializer.new(@user),
+        password_updated: is_password_update && can_update
+      }
+    elsif !can_update
+      render json: {
+        success: false,
+        msg: 'Something went wrong',
+        errors: { base: [I18n.t('activerecord.errors.models.user.attributes.password.wrong')] },
+        password_updated: false
       }
     else
       render json: {
         success: false,
         msg: 'Something went wrong',
-        errors: @user.errors
+        errors: @user.errors,
+        password_updated: false
       }
     end
   end
