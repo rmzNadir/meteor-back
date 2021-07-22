@@ -7,7 +7,13 @@ class Api::SalesController < ApplicationController
   # GET /sales
   def index
     sales = SaleQuery.new(policy_scope(Sale)).relation.search_with_params(search_params).order(created_at: :desc)
-    paginate json: sales, per_page: params[:per_page], each_serializer: SaleSerializer
+
+    if params[:download].present? && params[:download] == "true"
+      report = XlsxExport::Sales.new(sales).call
+      send_data report.to_stream.read, filename: "Reporte-ventas-#{Time.zone.today}.xlsx"
+    else
+      paginate json: sales, per_page: params[:per_page], each_serializer: SaleSerializer
+    end
   end
 
   # GET /sales/1

@@ -72,3 +72,6 @@ gem 'dotenv-rails'
 
 gem 'pundit'
 
+gem 'caxlsx'
+
+gem 'caxlsx_rails'
