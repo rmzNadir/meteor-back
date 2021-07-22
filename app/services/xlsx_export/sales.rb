@@ -10,6 +10,7 @@ class XlsxExport::Sales < XlsxExport::Main
     "string",
     "string",
     "string",
+    "datetime"
   ].freeze
 
   HEADERS = [
@@ -22,19 +23,18 @@ class XlsxExport::Sales < XlsxExport::Main
     "TOTAL",
     "DIRECCIÓN",
     "MÉTODO DE PAGO",
-    "TARJETA"
+    "TARJETA",
+    "FECHA"
   ].freeze
 
   def call
-    format_row = FORMAT_ROW
-    headers = HEADERS
     package = Axlsx::Package.new
     wb = package.workbook
     wb.styles do |style|
-      style_row = xlsx_styles(style, format_row)
+      style_row = xlsx_styles(style, FORMAT_ROW)
       wb.add_worksheet(name: 'Reporte') do |sheet|
         h_style = style.add_style(header_style)
-        sheet.add_row headers, style: h_style, row_offset: 1
+        sheet.add_row HEADERS, style: h_style, row_offset: 1
         @records.each do |record|
           service = map_service(record)
           sheet.add_row service, row_offset: 2, style: style_row
@@ -57,7 +57,8 @@ class XlsxExport::Sales < XlsxExport::Main
       record.total,
       record.address,
       parse_payment_method(record.payment_method),
-      record.payment_info.chars.last(4).join
+      record.payment_info.chars.last(4).join,
+      record.created_at
     ]
   end
 

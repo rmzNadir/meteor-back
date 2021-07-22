@@ -6,8 +6,14 @@ class Api::ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = ProductQuery.new.relation.search_with_params(search_params).order(created_at: :desc)
-    paginate json: @products, per_page: params[:per_page], each_serializer: ProductSerializer
+    products = ProductQuery.new.relation.search_with_params(search_params).order(created_at: :desc)
+
+    if params[:download].present? && params[:download] == "true"
+      report = XlsxExport::Products.new(products).call
+      send_data report.to_stream.read, filename: "Reporte-productos-#{Time.zone.today}.xlsx"
+    else
+      paginate json: products, per_page: params[:per_page], each_serializer: ProductSerializer
+    end
   end
 
   # GET /products/1
