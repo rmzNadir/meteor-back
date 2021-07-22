@@ -10,6 +10,7 @@ class XlsxExport::Products < XlsxExport::Main
     "string",
     "string",
     "currency",
+    "datetime",
     "datetime"
   ].freeze
 
@@ -24,7 +25,8 @@ class XlsxExport::Products < XlsxExport::Main
     "DISTRIBUIDOR",
     "ENVÍO GRATIS",
     "COSTO DE ENVÍO",
-    "VENDIDO POR ÚLTIMA VEZ"
+    "VENDIDO POR ÚLTIMA VEZ",
+    "FECHA DE REGISTRO"
   ].freeze
 
   def call
@@ -53,12 +55,13 @@ class XlsxExport::Products < XlsxExport::Main
       record.price,
       record.description,
       record.stock,
-      record.product_has_platforms.empty? ?  '-' : record.product_has_platforms.map { |r| r.platform.name }.join(','),
-      record.product_has_languages.empty? ?  '-' : record.product_has_languages.map { |r| r.language.name }.join(','),
+      record.product_has_platforms.empty? ?  '-' : record.product_has_platforms.map { |r| r.platform.name }.join(', '),
+      record.product_has_languages.empty? ?  '-' : record.product_has_languages.map { |r| r.language.name }.join(', '),
       record.provider,
       record.has_free_shipping ? "✔️" : "❌",
       record.shipping_cost,
-      record.last_bought_at || '-'
+      record.last_bought_at || '-',
+      record.created_at
     ]
   end
 
