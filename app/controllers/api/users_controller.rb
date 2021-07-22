@@ -5,8 +5,14 @@ class Api::UsersController < ApplicationController
 
   # GET /usersr
   def index
-    @users = UserQuery.new(policy_scope(User)).relation.search_with_params(search_params).order(created_at: :desc)
-    paginate json: @users, per_page: params[:per_page], each_serializer: UserSerializer
+    users = UserQuery.new(policy_scope(User)).relation.search_with_params(search_params).order(created_at: :desc)
+
+    if params[:download].present? && params[:download] == "true"
+      report = XlsxExport::Users.new(users).call
+      send_data report.to_stream.read, filename: "Reporte-usuarios-#{Time.zone.today}.xlsx"
+    else
+      paginate json: users, per_page: params[:per_page], each_serializer: UserSerializer
+    end
   end
 
   # GET /users/1
