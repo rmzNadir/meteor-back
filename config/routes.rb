@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :platforms, only: [:index]
     resources :sessions, only: [:create]
     get "/listings", to: "listings#index"
+    get "/listings/:id", to: "listings#show"
     delete :logout, to: "sessions#logout"
     get :logged_in, to: "sessions#logged_in"
     resources :registrations, only: [:create]

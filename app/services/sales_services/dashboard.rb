@@ -45,6 +45,7 @@ class SalesServices::Dashboard
     {
       user: UserSerializer.new(user),
       all_sales: all_sales,
+      user_sales: user.sales.count,
       percentage: (user.sales.count * 100) / all_sales,
     }
   end
