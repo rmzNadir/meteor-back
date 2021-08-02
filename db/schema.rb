@@ -113,7 +113,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_011327) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "times_bought", default: 0
-    t.boolean "disabled"
+    t.boolean "disabled", default: false
     t.index ["name"], name: "index_products_on_name", unique: true
   end
 
