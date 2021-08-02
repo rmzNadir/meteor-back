@@ -11,6 +11,7 @@ class XlsxExport::Products < XlsxExport::Main
     "string",
     "currency",
     "datetime",
+    "string",
     "datetime"
   ].freeze
 
@@ -26,6 +27,7 @@ class XlsxExport::Products < XlsxExport::Main
     "ENVÍO GRATIS",
     "COSTO DE ENVÍO",
     "VENDIDO POR ÚLTIMA VEZ",
+    "ACTIVO",
     "FECHA DE REGISTRO"
   ].freeze
 
@@ -61,6 +63,7 @@ class XlsxExport::Products < XlsxExport::Main
       record.has_free_shipping ? "✔️" : "❌",
       record.shipping_cost,
       record.last_bought_at || '-',
+      record.disabled ? "❌" : "✔️",
       record.created_at
     ]
   end
