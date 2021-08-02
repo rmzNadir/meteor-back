@@ -70,11 +70,20 @@ class Api::ProductsController < ApplicationController
 
   # DELETE /products/1
   def destroy
-    @product.destroy
-    render json: {
-      success: true,
-      msg: 'Product successfully destroyed',
-    }
+    product_status = @product[:disabled]
+    if @product.update(disabled: !product_status)
+      render json: {
+        success: true,
+        msg: 'Product successfully disabled',
+        product: ProductSerializer.new(@product)
+      }
+    else
+      render json: {
+        success: false,
+        msg: 'Something went wrong',
+        errors: @product.errors
+      }
+    end
   end
 
   def cards

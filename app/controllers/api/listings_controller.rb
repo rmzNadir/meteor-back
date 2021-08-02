@@ -4,7 +4,7 @@ class Api::ListingsController < ApplicationController
 
   # GET /listings
   def index
-    @products = ProductQuery.new.relation.search_with_params(search_params).order(created_at: :desc)
+    @products = ProductQuery.new(Product.where(disabled: [false, nil])).relation.search_with_params(search_params).order(created_at: :desc)
     paginate json: @products, per_page: params[:per_page], each_serializer: ProductSerializer
   end
 
