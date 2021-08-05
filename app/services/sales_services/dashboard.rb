@@ -32,7 +32,7 @@ class SalesServices::Dashboard
     sales = Sale.where("created_at BETWEEN ? AND ?", day.days.ago.beginning_of_day, day.days.ago.end_of_day)
     {
       name: 'Ventas',
-      date: DateTime.now.days_ago(day),
+      date: DateTime.now.days_ago(day).iso8601(3),
       sales: sales.count
     }
   end
