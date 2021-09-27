@@ -2,8 +2,9 @@ class Api::UsersController < ApplicationController
   include CurrentUserConcern
   include Rails::Pagination
   before_action :set_user, only: %i[show update destroy]
+  before_action :not_default_user, only: [:update]
 
-  # GET /usersr
+  # GET /users
   def index
     users = UserQuery.new(policy_scope(User)).relation.search_with_params(search_params).order(created_at: :desc)
 
@@ -67,6 +68,17 @@ class Api::UsersController < ApplicationController
   end
 
   private
+
+  def not_default_user
+    return unless ['normal@user.com', 'manager@user.com', 'admin@user.com'].include? params[:email]
+
+    render json: {
+      success: false,
+      msg: 'Something went wrong',
+      errors: { base: [I18n.t('activerecord.errors.models.user.default')] },
+      password_updated: false
+    }
+  end
 
   def set_user
     @user = User.find(params[:id])

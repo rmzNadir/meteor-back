@@ -14,6 +14,7 @@ es:
     errors:
       models:
         user:
+          default: 'No se puede modificar un usuario predeterminado'
           attributes:
             email:
               taken: 'El email ya ha sido usado para registrarse'
