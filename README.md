@@ -16,13 +16,13 @@ Meteor is a proof-of-concept for an e-commerce and ERP platform, it is built usi
 
 ## :mage_man: Test credentials
 
-- Default user 🙍‍♂️
+- User 🙍‍♂️
   - Email: dgzrz99@gmail.com
   - Password: password
 - Manager 👨‍💼
   - Email: xnadir99@gmail.com
   - Password: password
-- Admin 🧙‍♂️
+- Admin 🧙‍♂️ (default)
   - Email: diego50098@gmail.com
   - Password: password
 
